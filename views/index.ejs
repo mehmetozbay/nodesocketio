@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rest Socket</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.3/socket.io.js"></script>
+  </head>
+  <body>
+    <h1>
+      Kullanici Id:
+      <span id="userId"></span>
+    </h1>
+    <h1>
+      Kantar Id:
+      <span id="WeightBridgeId"></span>
+    </h1>
+    <h1>
+      Yuk Cinsi:
+      <span id="loadType"></span>
+    </h1>
+    <h1>
+      Tartim Turu:
+      <span id="weightType"></span>
+    </h1>
+    <h1>
+      Agirlik:
+      <span id="weight"></span>
+    </h1>
+    <h1>
+      On Plaka:
+      <span id="frontPlate"></span>
+    </h1>
+    <h1>
+      Arka Plaka:
+      <span id="backPlate"></span>
+    </h1>
+    <h1>
+      On Resim:
+      <div id="frontImg"></div>
+    </h1>
+    <h1>
+      Arka Resim:
+      <div id="backImg"></div>
+    </h1>
+    <script>
+      const socket = io();
+      socket.on("start_Weight", (data) => {
+        if (data.weightBridgeId === 1) {
+          document.querySelector("#userId").innerHTML = data?.userId;
+          document.querySelector("#WeightBridgeId").innerHTML = data?.userId;
+          document.querySelector("#loadType").innerHTML = "";
+          document.querySelector("#weightType").innerHTML = "";
+          document.querySelector("#weight").innerHTML = "";
+          document.querySelector("#frontPlate").innerHTML = "";
+          document.querySelector("#backPlate").innerHTML = "";
+          document.querySelector("#frontImg").innerHTML = "";
+          document.querySelector("#backImg").innerHTML = "";
+        }
+      });
+
+      socket.on("end_Weight", (data) => {
+        if (data.weightBridgeId === 1) {
+          document.querySelector("#userId").innerHTML = data?.userId;
+          document.querySelector("#WeightBridgeId").innerHTML = data?.userId;
+          document.querySelector("#loadType").innerHTML = data?.loadType;
+          document.querySelector("#weightType").innerHTML = data?.weightType;
+          document.querySelector("#weight").innerHTML = data?.weight;
+          document.querySelector("#frontPlate").innerHTML = data?.frontPlate;
+          document.querySelector("#backPlate").innerHTML = data?.backPlate;
+          document.querySelector(
+            "#frontImg"
+          ).innerHTML = `<img src="${data?.imgFront}" width="200" height="200"/>`;
+          document.querySelector(
+            "#backImg"
+          ).innerHTML = `<img src="${data?.imgBack}" width="200" height="200"/>`;
+        }
+      });
+    </script>
+  </body>
+</html>
